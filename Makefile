@@ -31,7 +31,8 @@ test: dest/vim-themis
 	THEMIS_VIM=nvim THEMIS_ARGS="-e -s --headless" dest/vim-themis/bin/themis tests/{compatibility,nvim}.vim
 	THEMIS_VIM=vim THEMIS_ARGS="-e -s" dest/vim-themis/bin/themis tests/{compatibility,vim}.vim
 
-dest/vim-themis: dest
+dest/vim-themis:
+	mkdir -p dest
 	git clone https://github.com/thinca/vim-themis $@
 
 dest:

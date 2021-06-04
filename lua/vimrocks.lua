@@ -1,30 +1,10 @@
 local vi = require('vimrocks.vi')
+local path = require('vimrocks.path')
 
-local sep_cache
-local function sep()
-    -- cygwin? windows terminal?
-    if sep_cache == nil then sep_cache = vi.is_windows() and '\\' or '/' end
-    return sep_cache
+local function clean()
+    local dest = vi.call('shellescape', path.dest())
+    vi.command('silent ! rm -rf ' .. dest)
 end
-
-local function join(parts, s) return table.concat(parts, s) end
-
--- 1 origin, inclusive
-local function array_range(xs, from, to)
-    local res = {}
-    for i = 1, to do if from <= i then res[i - from + 1] = xs[i] end end
-    return res
-end
-
-local function root_dir()
-    local this = debug.getinfo(1).short_src
-    local parts = vi.split(this, sep())
-    local len = #parts
-    return join(array_range(parts, 1, len - 2), sep())
-end
-
-local function dest_dir() return root_dir() .. sep() .. 'dest' end
-
 -- version number of (lua, jit)
 local function lua_version()
     local j
@@ -37,9 +17,31 @@ local function lua_version()
     return v, j
 end
 
-local function clean()
-    local dest = vi.call('shellescape', dest_dir())
-    vi.command('silent ! rm -rf ' .. dest)
+local function local_install_luarocks()
+    local function e(s) return vi.call('shellescape', s) end
+    local bin = path.join {path.dest(), 'py', 'bin'}
+    local pip = path.join {bin, 'pip'}
+    local hererocks = path.join {bin, 'hererocks'}
+    vi.command('! mkdir -p ' .. e(path.dest()))
+    vi.command('! python -m venv ' .. e(path.join {path.dest(), 'py'}))
+    vi.command('! ' .. e(pip) .. ' install hererocks')
+    -- NOTE: vi.join space not work
+    -- vi.command(sp {'!', e(pip), 'install', 'hererocks'})
+    do
+        local cmd = '! ' .. e(hererocks) .. ' -rlatest'
+        local l, j = lua_version()
+        if j then
+            cmd = cmd .. ' -j' .. j
+        else
+            cmd = cmd .. ' -l' .. l
+        end
+        cmd = cmd .. ' ' .. e(path.luaenv())
+        vi.command(cmd)
+    end
 end
 
-return {root_dir = root_dir, lua_version = lua_version, clean = clean}
+return {
+    lua_version = lua_version,
+    clean = clean,
+    local_install_luarocks = local_install_luarocks
+}

@@ -37,11 +37,14 @@ local function split(s, sep)
     return res
 end
 
+local function join(parts, sep) return table.concat(parts, sep) end
+
 return {
     is_nvim = is_nvim,
     is_windows = is_windows,
     g = g,
     command = command,
     call = call,
-    split = split
+    split = split,
+    join = join
 }
