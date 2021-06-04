@@ -7,6 +7,8 @@ local function sep()
     return sep_cache
 end
 
+local function join(parts) return vi.join(parts, sep()) end
+
 -- 1 origin, inclusive
 local function array_range(xs, from, to)
     local res = {}
@@ -14,13 +16,20 @@ local function array_range(xs, from, to)
     return res
 end
 
-local function join(parts) return vi.join(parts, sep()) end
+local function script_path()
+    local str = debug.getinfo(1).source:sub(2)
+    return str
+end
 
+local root_cache
 local function root()
-    local this = debug.getinfo(1).short_src
-    local parts = vi.split(this, sep())
-    local len = #parts
-    return join(array_range(parts, 1, len - 3))
+    if root_cache == nil then
+        local this = script_path()
+        local parts = vi.split(this, sep())
+        local len = #parts
+        root_cache = join(array_range(parts, 1, len - 3))
+    end
+    return root_cache
 end
 
 local function dest() return root() .. sep() .. 'dest' end
