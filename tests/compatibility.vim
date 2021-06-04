@@ -22,17 +22,19 @@ endfunction
 
 function! s:suite.basic_usage() abort
   " NOTE: after local_install_luarocks
-  lua require('vimrocks').append_path()
   lua require('vimrocks').run_luarocks("install luv")
   let dest = luaeval("require('vimrocks.path').dest()")
   let sep = luaeval("require('vimrocks.path').sep()")
   let file = dest . sep . 'hoge'
   call s:assert.false(filereadable(file))
   lua <<EOF
+    require('vimrocks').append_path()
     local path = require('vimrocks.path')
     local file = path.join{path.dest(), 'hoge'}
-    require('luv').spawn('touch', {file})
+    local params = {args = {file}}
+    require('luv').spawn('touch', params)
 EOF
+  sleep 1
   call s:assert.true(filereadable(file))
   execute 'silent ! rm ' . shellescape(file)
 endfunction

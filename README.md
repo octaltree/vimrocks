@@ -21,7 +21,10 @@ lua require('vimrocks').append_path()
 # install {reporsitory}/dest
 lua require('vimrocks').run_luarocks("install luv")
 
+# Use the library
 lua <<EOF
 local uv = require('luv')
+local params = {args = {'/tmp/hoge'}}
+uv.spawn('touch', params)
 EOF
 ```

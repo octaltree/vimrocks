@@ -28,8 +28,8 @@ export THEMIS_HOME := ./dest/vim-themis
 
 .PHONY: test
 test: dest/vim-themis
-	THEMIS_VIM=nvim THEMIS_ARGS="-e -s --headless" dest/vim-themis/bin/themis tests/{compatibility,nvim}.vim
 	THEMIS_VIM=vim THEMIS_ARGS="-e -s" dest/vim-themis/bin/themis tests/{compatibility,vim}.vim
+	THEMIS_VIM=nvim THEMIS_ARGS="-e -s --headless" dest/vim-themis/bin/themis tests/{compatibility,nvim}.vim
 
 dest/vim-themis:
 	mkdir -p dest
