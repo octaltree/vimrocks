@@ -22,7 +22,7 @@ local function local_install_luarocks()
     local bin = path.join {path.dest(), 'py', 'bin'}
     local pip = path.join {bin, 'pip'}
     local hererocks = path.join {bin, 'hererocks'}
-    vi.command('! mkdir -p ' .. e(path.dest()))
+    vi.command('silent ! mkdir -p ' .. e(path.dest()))
     vi.command('! python -m venv ' .. e(path.join {path.dest(), 'py'}))
     vi.command('! ' .. e(pip) .. ' install hererocks')
     -- NOTE: vi.join space not work
@@ -40,6 +40,10 @@ local function local_install_luarocks()
     end
 end
 
+local function luarocks_installed()
+    return vim.call('filereadable', path.luarocks()) == 1
+end
+
 local function append_path()
     local ver, _ = lua_version()
     package.path = package.path .. ';' .. path.join {path.lualib(ver), '?.lua'}
@@ -55,6 +59,7 @@ return {
     clean = clean,
     lua_version = lua_version,
     local_install_luarocks = local_install_luarocks,
+    luarocks_installed = luarocks_installed,
     append_path = append_path,
     run_luarocks = run_luarocks
 }
