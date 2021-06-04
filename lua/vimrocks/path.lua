@@ -26,13 +26,26 @@ end
 local function dest() return root() .. sep() .. 'dest' end
 
 local function luaenv()
-    local res = join {root(), 'dest'}
+    local d
     if vi.is_nvim() then
-        res = res .. sep() .. 'nvim_lua'
+        d = 'nvim_lua'
     else
-        res = res .. sep() .. 'vim_lua'
+        d = 'vim_lua'
     end
+    local res = join {root(), 'dest', d}
     return res
 end
 
-return {sep = sep, root = root, dest = dest, join = join, luaenv = luaenv}
+local function luarocks() return join {luaenv(), 'bin', 'luarocks'} end
+
+local function lualib(ver) return join {luaenv(), 'lib', 'lua', ver} end
+
+return {
+    sep = sep,
+    root = root,
+    dest = dest,
+    join = join,
+    luaenv = luaenv,
+    luarocks = luarocks,
+    lualib = lualib
+}

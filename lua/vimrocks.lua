@@ -40,8 +40,21 @@ local function local_install_luarocks()
     end
 end
 
+local function append_path()
+    local ver, _ = lua_version()
+    package.path = package.path .. ';' .. path.join {path.lualib(ver), '?.lua'}
+    package.cpath = package.cpath .. ';' .. path.join {path.lualib(ver), '?.so'}
+end
+
+local function run_luarocks(args)
+    local function e(s) return vi.call('shellescape', s) end
+    vi.command('! ' .. e(path.luarocks()) .. ' ' .. args)
+end
+
 return {
-    lua_version = lua_version,
     clean = clean,
-    local_install_luarocks = local_install_luarocks
+    lua_version = lua_version,
+    local_install_luarocks = local_install_luarocks,
+    append_path = append_path,
+    run_luarocks = run_luarocks
 }
