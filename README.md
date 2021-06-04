@@ -6,23 +6,27 @@ Using luarocks assets for vim
 * vim if_lua or nvim lua
 
 ## Installation
-for dein
+For dein
 ```vim
 call dein#add('octaltree/vimrocks')
 ```
 
 ## Usage
+For nvim and vim
 ```vim
-# install to {reporsitory}/dest/
-lua require('vimrocks').local_install_luarocks()
-# append local to package search path
-lua require('vimrocks').append_path()
-
-# install {reporsitory}/dest
-lua require('vimrocks').run_luarocks("install luv")
-
-# Use the library
 lua <<EOF
+local vimrocks = require('vimrocks')
+
+if not vimrocks.luarocks_installed() then
+  " install luarocks to {repository}/dest/
+  vimrocks.local_install_luarocks()
+end
+
+" append local to package search path
+vimrocks.append_path()
+
+" Use the library
+vimrocks.run_luarocks('install luv')
 local uv = require('luv')
 local params = {args = {'/tmp/hoge'}}
 uv.spawn('touch', params)
