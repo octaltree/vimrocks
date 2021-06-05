@@ -50,7 +50,7 @@ local function append_path()
     package.cpath = package.cpath .. ';' .. path.join {path.lualib(ver), '?.so'}
 end
 
-local function run_luarocks(args)
+local function luarocks(args)
     local function e(s) return vi.call('shellescape', s) end
     vi.command('! ' .. e(path.luarocks()) .. ' ' .. args)
 end
@@ -61,5 +61,5 @@ return {
     local_install_luarocks = local_install_luarocks,
     luarocks_installed = luarocks_installed,
     append_path = append_path,
-    run_luarocks = run_luarocks
+    luarocks = luarocks
 }

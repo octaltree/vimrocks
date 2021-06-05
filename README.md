@@ -26,7 +26,7 @@ end
 vimrocks.append_path()
 
 " Use the library
-vimrocks.run_luarocks('install luv')
+vimrocks.luarocks('install luv')
 local uv = require('luv')
 local params = {args = {'/tmp/hoge'}}
 uv.spawn('touch', params)

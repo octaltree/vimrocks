@@ -22,7 +22,7 @@ endfunction
 
 function! s:suite.basic_usage() abort
   " NOTE: after local_install_luarocks
-  lua require('vimrocks').run_luarocks("install luv")
+  lua require('vimrocks').luarocks("install luv")
   let dest = luaeval("require('vimrocks.path').dest()")
   let sep = luaeval("require('vimrocks.path').sep()")
   let file = dest . sep . 'hoge'
