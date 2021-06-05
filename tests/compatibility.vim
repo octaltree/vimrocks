@@ -9,11 +9,6 @@ function! s:suite.version_is_not_nil() abort
   call s:assert.true(is_not_nil)
 endfunction
 
-function! s:suite.root_dir() abort
-  let root = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-  call s:assert.equals(luaeval("require('vimrocks.path').root()"), root)
-endfunction
-
 function! s:suite.local_install_luarocks() abort
   lua require('vimrocks').local_install_luarocks()
   let luarocks = luaeval("require('vimrocks.path').luarocks()")

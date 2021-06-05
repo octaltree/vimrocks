@@ -14,8 +14,7 @@ call dein#add('octaltree/vimrocks')
 ## Usage
 For nvim and vim
 ```vim
-" append local to package search path at start
-let g:vimrocks#enable_at_start = 1
+let g:vimrocks_dir = '~/.local/share/vimrocks'
 
 lua <<EOF
 local vimrocks = require('vimrocks')

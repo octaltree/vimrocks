@@ -9,30 +9,21 @@ end
 
 local function join(parts) return vi.join(parts, sep()) end
 
--- 1 origin, inclusive
-local function array_range(xs, from, to)
-    local res = {}
-    for i = 1, to do if from <= i then res[i - from + 1] = xs[i] end end
-    return res
-end
-
-local function script_path()
-    local str = debug.getinfo(1).source:sub(2)
-    return str
-end
-
-local root_cache
-local function root()
-    if root_cache == nil then
-        local this = script_path()
-        local parts = vi.split(this, sep())
-        local len = #parts
-        root_cache = join(array_range(parts, 1, len - 3))
+local dest_cache
+local function dest()
+    if dest_cache == nil then
+        if vi.g 'vimrocks_dir' then
+            local tmp = vi.call('expand', vi.g 'vimrocks_dir')
+            local no_slash = tmp:gsub('/$', '')
+            dest_cache = no_slash
+        else
+            local home = vi.call('expand', '~')
+            local default = join {home, '.local', 'share', 'vimrocks'}
+            dest_cache = default
+        end
     end
-    return root_cache
+    return dest_cache
 end
-
-local function dest() return root() .. sep() .. 'dest' end
 
 local function luaenv()
     local d
@@ -41,7 +32,7 @@ local function luaenv()
     else
         d = 'vim_lua'
     end
-    local res = join {root(), 'dest', d}
+    local res = join {dest(), d}
     return res
 end
 
@@ -51,7 +42,6 @@ local function lualib(ver) return join {luaenv(), 'lib', 'lua', ver} end
 
 return {
     sep = sep,
-    root = root,
     dest = dest,
     join = join,
     luaenv = luaenv,

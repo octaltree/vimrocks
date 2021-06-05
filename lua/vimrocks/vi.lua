@@ -16,7 +16,11 @@ local function g(name)
     if is_nvim() then
         return vim.g[name]
     else
-        return vim.eval('g:' .. name)
+        if vim.eval('exists("g:' .. name .. '")') == 1 then
+            return vim.eval('g:' .. name)
+        else
+            return nil
+        end
     end
 end
 

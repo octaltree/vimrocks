@@ -3,10 +3,9 @@
 Author: octaltree <octaltree at users.noreply.github.com>
 License: Apache-2.0
 
-g:vimrocks#enable_at_startup
-		If this value is 1, It will be added to lua's module search path at start.
-
-		Default: 0
+g:vimrocks_dir
+		Directory of all installations
+		Default: ~/.local/share/vimrocks
 
 lua vimrocks.clean()
 		Delete everything you've installed and built locally.
