@@ -39,6 +39,8 @@ end
 
 local function join(parts, sep) return table.concat(parts, sep) end
 
+local function filereadable(path) return call('filereadable', path) == 1 end
+
 return {
     is_nvim = is_nvim,
     is_windows = is_windows,
@@ -46,5 +48,6 @@ return {
     command = command,
     call = call,
     split = split,
-    join = join
+    join = join,
+    filereadable = filereadable
 }

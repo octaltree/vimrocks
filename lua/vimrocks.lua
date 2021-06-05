@@ -40,9 +40,7 @@ local function local_install_luarocks()
     end
 end
 
-local function luarocks_installed()
-    return vim.call('filereadable', path.luarocks()) == 1
-end
+local function luarocks_installed() return vi.filereadable(path.luarocks()) end
 
 local function append_path()
     local ver, _ = lua_version()
