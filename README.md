@@ -14,16 +14,14 @@ call dein#add('octaltree/vimrocks')
 ## Usage
 For nvim and vim
 ```vim
+" append local to package search path at start
+let g:vimrocks#enable_at_start = 1
+
 lua <<EOF
 local vimrocks = require('vimrocks')
-
 if not vimrocks.luarocks_installed() then
-  " install luarocks to {repository}/dest/
   vimrocks.local_install_luarocks()
 end
-
-" append local to package search path
-vimrocks.append_path()
 
 " Use the library
 vimrocks.luarocks('install luv')

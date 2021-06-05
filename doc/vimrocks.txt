@@ -3,13 +3,18 @@
 Author: octaltree <octaltree at users.noreply.github.com>
 License: Apache-2.0
 
+g:vimrocks#enable_at_startup
+		If this value is 1, It will be added to lua's module search path at start.
+
+		Default: 0
+
 lua vimrocks.clean()
-  Delete everything you've installed and built locally.
+		Delete everything you've installed and built locally.
 lua vimrocks.local_install_luarocks()
-  Install luarocks in local sandbox
+		Install luarocks in local sandbox
 lua vimrocks.append_path()
-  Add to lua's module search path
+		Add to lua's module search path
 lua vimrocks.luarocks({args:str})
-  Use luerocks
+		Use luerocks
 
 vim: ft=help tw=78 et ts=2 sw=2 sts=2 norl
