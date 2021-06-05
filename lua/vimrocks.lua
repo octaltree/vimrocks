@@ -54,6 +54,8 @@ local function luarocks(args)
 end
 
 return {
+    vi = vi,
+    path = path,
     clean = clean,
     lua_version = lua_version,
     local_install_luarocks = local_install_luarocks,
